@@ -2,6 +2,7 @@ package com.naberss.currencyconversionservice.controller;
 
 import com.naberss.currencyconversionservice.DTO.CurrencyConversion;
 import com.naberss.currencyconversionservice.feign.CurrencyExchangeProxy;
+import com.naberss.currencyconversionservice.feign.CurrencyExchangeProxyWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,13 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 @RestController
-@EnableFeignClients
 public class CurrencyConversionController {
 
     @Autowired
     CurrencyExchangeProxy currencyExchangeProxy;
+
+    @Autowired
+    CurrencyExchangeProxyWrapper currencyExchangeProxyWrapper;
 
     @GetMapping(value = "/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversion(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
@@ -46,7 +49,9 @@ public class CurrencyConversionController {
     @GetMapping(value = "/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversionaFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
 
-        CurrencyConversion currencyConversion = currencyExchangeProxy.retrieveExchangeValue(from, to);
+        System.out.println("im here");
+        CurrencyConversion currencyConversion = currencyExchangeProxyWrapper.retrieveExchangeValue(from, to);
+        System.out.println("im here");
 
         return new CurrencyConversion(currencyConversion.getId(),
                 currencyConversion.getFrom(),
