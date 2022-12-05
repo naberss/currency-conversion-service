@@ -53,12 +53,14 @@ public class CurrencyConversionController {
         CurrencyConversion currencyConversion = currencyExchangeProxyWrapper.retrieveExchangeValue(from, to);
         System.out.println("im here");
 
+        BigDecimal totalCalculatedAmout = ((quantity!=null && currencyConversion.getConversionMultiple()!=null)?quantity.multiply(currencyConversion.getConversionMultiple()):null);
+
         return new CurrencyConversion(currencyConversion.getId(),
                 currencyConversion.getFrom(),
                 currencyConversion.getTo(),
                 currencyConversion.getConversionMultiple(),
                 quantity,
-                quantity.multiply(currencyConversion.getConversionMultiple()),
+                totalCalculatedAmout,
                 currencyConversion.getEnvironment());
     }
 }
