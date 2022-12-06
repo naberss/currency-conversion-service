@@ -23,7 +23,6 @@ public class CurrencyConversion {
 
     public CurrencyConversion(Long id, String from, String to, BigDecimal quantity, BigDecimal conversionMultiple,
                               BigDecimal totalCalculatedAmount, String environment) {
-        super();
         this.id = id;
         this.from = from;
         this.to = to;

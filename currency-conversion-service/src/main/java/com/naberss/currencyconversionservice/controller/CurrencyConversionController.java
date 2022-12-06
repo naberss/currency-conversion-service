@@ -50,6 +50,24 @@ public class CurrencyConversionController {
     public CurrencyConversion calculateCurrencyConversionaFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
 
         System.out.println("im here");
+        CurrencyConversion currencyConversion = currencyExchangeProxy.retrieveExchangeValue(from, to);
+        System.out.println("im here");
+
+        BigDecimal totalCalculatedAmout = ((quantity!=null && currencyConversion.getConversionMultiple()!=null)?quantity.multiply(currencyConversion.getConversionMultiple()):null);
+
+        return new CurrencyConversion(currencyConversion.getId(),
+                currencyConversion.getFrom(),
+                currencyConversion.getTo(),
+                currencyConversion.getConversionMultiple(),
+                quantity,
+                totalCalculatedAmout,
+                currencyConversion.getEnvironment());
+    }
+
+    @GetMapping(value = "/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversion calculateCurrencyConversionaFeignWrapper(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
+
+        System.out.println("im here");
         CurrencyConversion currencyConversion = currencyExchangeProxyWrapper.retrieveExchangeValue(from, to);
         System.out.println("im here");
 
